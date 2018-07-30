@@ -1,0 +1,20 @@
+<resources>
+
+    <string name="app_name">智慧农场</string>
+	<string name="sure">确定</string>
+	
+	
+    <string name="title">选择操作区域</string>
+    <string name="fixedAspectRatio">fixedAspectRatio =\u0020</string>
+    <string name="aspectRatioXHeader">aspectRatioX =\u0020</string>
+    <string name="aspectRatioYHeader">aspectRatioY =\u0020</string>
+    <string name="showGuidelines">showGuidelines =\u0020</string>
+    <string name="crop">确定</string>
+    <string name="croppedImageDesc">确定</string>
+
+    <string-array name="showGuidelinesArray">
+        <item>Off</item>
+        <item>On Touch</item>
+        <item>On</item>
+    </string-array>
+</resources>

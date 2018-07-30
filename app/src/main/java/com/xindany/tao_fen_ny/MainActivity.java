@@ -1,0 +1,594 @@
+package com.xindany.tao_fen_ny;
+
+
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.xindany.App;
+import com.xindany.socket.SocketServer;
+import com.xindany.util.DeviceUtil;
+import com.xindany.util.T;
+
+
+public class MainActivity extends Activity implements View.OnClickListener{
+	private View view;
+	private AlphaAnimation aa;
+	private String selectIndexs = ","; 
+	private ImageView[] imgbtns;
+	private ImageView select_imgbtn;
+	String cmd = ",";
+	private ImageView menuBtn;
+	private DrawerLayout drawerLayout;
+	private NavigationView navigationView;
+	private View headerView;
+
+	private HandlerThread mHandlerThread = new HandlerThread("send-thread");
+	private Handler mThreadHandler;
+
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+//		setNoTitle();
+//		setFullscreen();
+
+		if (!mHandlerThread.isAlive()) {
+			mHandlerThread.start();
+			mThreadHandler = new Handler(mHandlerThread.getLooper());
+		}else {
+			mThreadHandler.removeCallbacksAndMessages(null);
+		}
+
+		view = View.inflate(this, R.layout.main, null);
+		setContentView(view);
+		findView();
+	}
+	
+	
+	void findView(){
+
+		menuBtn = findViewById(R.id.iv_menu);
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+		navigationView = (NavigationView) findViewById(R.id.nav);
+		//获取头布局
+		headerView = navigationView.getHeaderView(0);
+		TextView tvIp = headerView.findViewById(R.id.tv_ip);
+		tvIp.setText("当前手机IP："+ DeviceUtil.getIP());
+
+
+		menuBtn.setOnClickListener(this);
+		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+			@Override
+			public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+				//item.setChecked(true);
+//				Toast.makeText(MainActivity.this,item.getTitle().toString(), Toast.LENGTH_SHORT).show();
+
+
+				int itemId = item.getItemId();
+
+				switch (itemId){
+					case R.id.farm:
+
+						break;
+					case R.id.setting:
+						Intent intent = new Intent(MainActivity.this, SettingActicity.class);
+						startActivity(intent);
+						break;
+					default:
+						break;
+				}
+				drawerLayout.closeDrawer(navigationView);
+				return true;
+			}
+		});
+
+
+		((TextView)findViewById(R.id.imgbtnbz)).setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				if(selectIndexs.length() == 1){
+					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+					builder.setIcon(android.R.drawable.ic_dialog_info);
+					builder.setTitle(R.string.app_name);
+					builder.setMessage("请选择要播种的农田！");
+					builder.setPositiveButton(R.string.sure,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+									
+								}
+							});
+					
+					builder.show();
+					return;
+				}
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setIcon(android.R.drawable.ic_dialog_info);
+				builder.setTitle(R.string.app_name);
+				builder.setMessage("是否要对选中的农田开始播种？");
+				builder.setPositiveButton(R.string.sure,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								sort();
+								String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
+								cmd = "1,0,"  + selectid.split(",").length + "," + selectid;
+//								new Thread(runnable).start();
+								send();
+							}
+						});
+				builder.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						
+					}
+				});
+				builder.show();
+			}
+		});
+		((TextView)findViewById(R.id.imgbtnjs)).setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				if(selectIndexs.length() == 1){
+					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+					builder.setIcon(android.R.drawable.ic_dialog_info);
+					builder.setTitle(R.string.app_name);
+					builder.setMessage("请选择要浇水的农田！");
+					builder.setPositiveButton(R.string.sure,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+									
+								}
+							});
+					
+					builder.show();
+					return;
+				}
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setIcon(android.R.drawable.ic_dialog_info);
+				builder.setTitle(R.string.app_name);
+				builder.setMessage("是否要对选中的农田开始浇水？");
+				builder.setPositiveButton(R.string.sure,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								sort();
+								String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
+								cmd = "2,0," + selectid.split(",").length + "," + selectid;
+//								new Thread(runnable).start();
+								send();
+								
+							}
+						});
+				builder.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						
+					}
+				});
+				builder.show();
+			}
+		});
+
+		((TextView)findViewById(R.id.imgbtnsf)).setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				if(selectIndexs.length() == 1){
+					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+					builder.setIcon(android.R.drawable.ic_dialog_info);
+					builder.setTitle(R.string.app_name);
+					builder.setMessage("请选择要施肥的农田！");
+					builder.setPositiveButton(R.string.sure,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+
+								}
+							});
+
+					builder.show();
+					return;
+				}
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setIcon(android.R.drawable.ic_dialog_info);
+				builder.setTitle(R.string.app_name);
+				builder.setMessage("是否要对选中的农田开始施肥？");
+				builder.setPositiveButton(R.string.sure,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								sort();
+								String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
+								cmd = "3,0," + selectid.split(",").length + "," + selectid;
+//								new Thread(runnable).start();
+								send();
+							}
+						});
+				builder.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+
+							}
+						});
+				builder.show();
+			}
+		});
+
+		((TextView)findViewById(R.id.imgbtncc)).setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				if(selectIndexs.length() == 1){
+					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+					builder.setIcon(android.R.drawable.ic_dialog_info);
+					builder.setTitle(R.string.app_name);
+					builder.setMessage("请选择要除草的农田！");
+					builder.setPositiveButton(R.string.sure,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+
+								}
+							});
+
+					builder.show();
+					return;
+				}
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setIcon(android.R.drawable.ic_dialog_info);
+				builder.setTitle(R.string.app_name);
+				builder.setMessage("是否要对选中的农田开始除草？");
+				builder.setPositiveButton(R.string.sure,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								sort();
+								String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
+								cmd = "4,0," + selectid.split(",").length + "," + selectid;
+//								new Thread(runnable).start();
+								send();
+
+							}
+						});
+				builder.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+
+							}
+						});
+				builder.show();
+			}
+		});
+		
+		
+		imgbtns = new ImageView[66];
+		imgbtns[0] = (ImageView)this.findViewById(R.id.img_di_1);
+		imgbtns[1] = (ImageView)this.findViewById(R.id.img_di_2);
+		imgbtns[2] = (ImageView)this.findViewById(R.id.img_di_3);
+		imgbtns[3] = (ImageView)this.findViewById(R.id.img_di_4);
+		imgbtns[4] = (ImageView)this.findViewById(R.id.img_di_5);
+		imgbtns[5] = (ImageView)this.findViewById(R.id.img_di_6);
+		imgbtns[6] = (ImageView)this.findViewById(R.id.img_di_7);
+		imgbtns[7] = (ImageView)this.findViewById(R.id.img_di_8);
+		imgbtns[8] = (ImageView)this.findViewById(R.id.img_di_9);
+		imgbtns[9] = (ImageView)this.findViewById(R.id.img_di_10);
+		imgbtns[10] = (ImageView)this.findViewById(R.id.img_di_11);
+		imgbtns[11] = (ImageView)this.findViewById(R.id.img_di_12);
+		imgbtns[12] = (ImageView)this.findViewById(R.id.img_di_13);
+		imgbtns[13] = (ImageView)this.findViewById(R.id.img_di_14);
+		imgbtns[14] = (ImageView)this.findViewById(R.id.img_di_15);
+		imgbtns[15] = (ImageView)this.findViewById(R.id.img_di_16);
+		imgbtns[16] = (ImageView)this.findViewById(R.id.img_di_17);
+		imgbtns[17] = (ImageView)this.findViewById(R.id.img_di_18);
+		imgbtns[18] = (ImageView)this.findViewById(R.id.img_di_19);
+		imgbtns[19] = (ImageView)this.findViewById(R.id.img_di_20);
+		imgbtns[20] = (ImageView)this.findViewById(R.id.img_di_21);
+		imgbtns[21] = (ImageView)this.findViewById(R.id.img_di_22);
+		imgbtns[22] = (ImageView)this.findViewById(R.id.img_di_23);
+		imgbtns[23] = (ImageView)this.findViewById(R.id.img_di_24);
+		imgbtns[24] = (ImageView)this.findViewById(R.id.img_di_25);
+		imgbtns[25] = (ImageView)this.findViewById(R.id.img_di_26);
+		imgbtns[26] = (ImageView)this.findViewById(R.id.img_di_27);
+		imgbtns[27] = (ImageView)this.findViewById(R.id.img_di_28);
+		imgbtns[28] = (ImageView)this.findViewById(R.id.img_di_29);
+		imgbtns[29] = (ImageView)this.findViewById(R.id.img_di_30);
+		imgbtns[30] = (ImageView)this.findViewById(R.id.img_di_31);
+		imgbtns[31] = (ImageView)this.findViewById(R.id.img_di_32);
+		imgbtns[32] = (ImageView)this.findViewById(R.id.img_di_33);
+		imgbtns[33] = (ImageView)this.findViewById(R.id.img_di_34);
+		imgbtns[34] = (ImageView)this.findViewById(R.id.img_di_35);
+		imgbtns[35] = (ImageView)this.findViewById(R.id.img_di_36);
+		imgbtns[36] = (ImageView)this.findViewById(R.id.img_di_37);
+		imgbtns[37] = (ImageView)this.findViewById(R.id.img_di_38);
+		imgbtns[38] = (ImageView)this.findViewById(R.id.img_di_39);
+		imgbtns[39] = (ImageView)this.findViewById(R.id.img_di_40);
+		imgbtns[40] = (ImageView)this.findViewById(R.id.img_di_41);
+		imgbtns[41] = (ImageView)this.findViewById(R.id.img_di_42);
+		imgbtns[42] = (ImageView)this.findViewById(R.id.img_di_43);
+		imgbtns[43] = (ImageView)this.findViewById(R.id.img_di_44);
+		imgbtns[44] = (ImageView)this.findViewById(R.id.img_di_45);
+		imgbtns[45] = (ImageView)this.findViewById(R.id.img_di_46);
+		imgbtns[46] = (ImageView)this.findViewById(R.id.img_di_47);
+		imgbtns[47] = (ImageView)this.findViewById(R.id.img_di_48);
+		imgbtns[48] = (ImageView)this.findViewById(R.id.img_di_49);
+		imgbtns[49] = (ImageView)this.findViewById(R.id.img_di_50);
+		imgbtns[50] = (ImageView)this.findViewById(R.id.img_di_51);
+		imgbtns[51] = (ImageView)this.findViewById(R.id.img_di_52);
+		imgbtns[52] = (ImageView)this.findViewById(R.id.img_di_53);
+		imgbtns[53] = (ImageView)this.findViewById(R.id.img_di_54);
+		imgbtns[54] = (ImageView)this.findViewById(R.id.img_di_55);
+		imgbtns[55] = (ImageView)this.findViewById(R.id.img_di_56);
+		imgbtns[56] = (ImageView)this.findViewById(R.id.img_di_57);
+		imgbtns[57] = (ImageView)this.findViewById(R.id.img_di_58);
+		imgbtns[58] = (ImageView)this.findViewById(R.id.img_di_59);
+		imgbtns[59] = (ImageView)this.findViewById(R.id.img_di_60);
+		imgbtns[60] = (ImageView)this.findViewById(R.id.img_di_61);
+		imgbtns[61] = (ImageView)this.findViewById(R.id.img_di_62);
+		imgbtns[62] = (ImageView)this.findViewById(R.id.img_di_63);
+		imgbtns[63] = (ImageView)this.findViewById(R.id.img_di_64);
+		imgbtns[64] = (ImageView)this.findViewById(R.id.img_di_65);
+		imgbtns[65] = (ImageView)this.findViewById(R.id.img_di_66);
+		
+		for(int i = 0; i < imgbtns.length; i++){
+			imgbtns[i].setTag((i+1));
+			imgbtns[i].setOnClickListener(new Button.OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+					select_imgbtn = (ImageView)v;
+					if(selectIndexs.indexOf("," + v.getTag() + ",") > -1){
+						if(select_imgbtn != null)
+							select_imgbtn.setImageResource(R.drawable.null_data);
+						selectIndexs = selectIndexs.replace("," + v.getTag() + ",", ",");
+						return;
+					}
+					
+					select_imgbtn.setImageResource(R.drawable.select_data);
+					selectIndexs = selectIndexs +  v.getTag() + ",";
+					
+//					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//					builder.setIcon(android.R.drawable.ic_dialog_info);
+//					builder.setTitle(R.string.app_name);
+//					builder.setMessage("农田："+ v.getTag());
+//					builder.setPositiveButton(R.string.sure,
+//							new DialogInterface.OnClickListener() {
+//								@Override
+//								public void onClick(DialogInterface dialog, int which) {
+//									
+//									
+//								}
+//							});
+//					
+//					builder.show();
+				}
+			});
+		}
+	}
+	/**
+	 * 读取流中的数据
+	 * @param inputStream
+	 * @return
+	 * @throws Exception
+	 */
+	public static byte[] readStream(InputStream inputStream) throws Exception{
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while( (len=inputStream.read(buffer)) != -1){
+			outStream.write(buffer, 0, len);
+		}
+		outStream.close();
+		inputStream.close();
+		return outStream.toByteArray();
+	}
+	
+	
+	
+	Runnable runnable = new Runnable(){
+	    @Override
+	    public void run() {
+	        // TODO: http request.
+	    	try {
+				submit();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	};
+
+	private void send(){
+		mThreadHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				boolean b = SocketServer.getInstance().sendData(cmd);
+				if (b){
+					T.show(App.getInstance(), "发送成功！");
+				}else {
+					T.show(App.getInstance(), "失败");
+				}
+			}
+		});
+	}
+	
+	private void submit() throws  IOException{
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("cmd", cmd);
+		HttpURLConnection conn = null;
+		try {
+			conn = (HttpURLConnection) HttpRequestUtil
+					.sendGetRequest(
+							"http://zhny.95yes.cn/sendcmd.ashx",
+							params, null);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		InputStream in = conn.getInputStream();
+		String result = "";
+		try {
+			byte[]data = readStream(in);
+			result = new String(data);  // 把字符数组转换成字符串
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Looper.prepare();
+				if (conn.getResponseCode() == 200){
+				   
+				    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+					builder.setIcon(android.R.drawable.ic_dialog_info);
+					builder.setTitle(R.string.app_name);
+					builder.setMessage(result);
+					builder.setPositiveButton(R.string.sure,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+									
+								}
+							});
+					
+					builder.show();
+				    
+				}else{
+					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+					builder.setIcon(android.R.drawable.ic_dialog_info);
+					builder.setTitle(R.string.app_name);
+					builder.setMessage("服务器请求失败");
+					builder.setPositiveButton(R.string.sure,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									dialog.dismiss();
+									
+								}
+							});
+					
+					builder.show();
+				}
+				Looper.loop();
+	}
+
+	/**
+	 * 冒泡法排序<br/>
+
+	 * <li>比较相邻的元素。如果第一个比第二个大，就交换他们两个。</li>
+	 * <li>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。</li>
+	 * <li>针对所有的元素重复以上的步骤，除了最后一个。</li>
+	 * <li>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</li>
+
+	 *
+	 * @param numbers
+	 *            需要排序的整型数组
+	 */
+	public void bubbleSort(int[] numbers) {
+		int temp; // 记录临时中间值
+		int size = numbers.length; // 数组大小
+		for (int i = 0; i < size - 1; i++) {
+			for (int j = i + 1; j < size; j++) {
+				if (numbers[i] < numbers[j]) { // 交换两数的位置
+					temp = numbers[i];
+					numbers[i] = numbers[j];
+					numbers[j] = temp;
+				}
+			}
+		}
+	}
+
+	public void sort(){
+		if(selectIndexs.length() == 1){
+			return;
+		}
+		String [] ss = selectIndexs.split(",");
+		int[] numbers = new int[ss.length];
+		for(int i = 0; i < ss.length; i++){
+			if(ss[i] != null && !ss[i].equals(""))
+				numbers[i] =  Integer.parseInt(ss[i]);
+		}
+		bubbleSort(numbers);
+		selectIndexs = ",";
+		for(int i = numbers.length - 1; i >= 0; i--){
+			if(numbers[i] > 0)
+				selectIndexs += numbers[i] + ",";
+		}
+	}
+
+
+	/**
+	 * 全屏
+	 */
+	public void setFullscreen() {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		Window window = getWindow();
+		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		window.setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	}
+
+	/**
+	 * 无标题
+	 */
+	public void setNoTitle() {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()){
+			case R.id.iv_menu://点击菜单，跳出侧滑菜单
+				if (drawerLayout.isDrawerOpen(navigationView)){
+					drawerLayout.closeDrawer(navigationView);
+				}else{
+					drawerLayout.openDrawer(navigationView);
+				}
+				break;
+			default:
+					break;
+		}
+	}
+}
