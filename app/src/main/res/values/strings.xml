@@ -12,6 +12,12 @@
     <string name="crop">确定</string>
     <string name="croppedImageDesc">确定</string>
 
+    <string name="string_stop_play">"停止"</string>
+    <string name="string_pause_play">"暂停"</string>
+    <string name="string_start_play">"播放"</string>
+    <string name="string_not_found_recordfile">"未找到录像文件"</string>
+
+
     <string-array name="showGuidelinesArray">
         <item>Off</item>
         <item>On Touch</item>

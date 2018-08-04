@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xindany.App;
+import com.xindany.Config;
 import com.xindany.socket.SocketServer;
 import com.xindany.util.DeviceUtil;
 import com.xindany.util.T;
@@ -92,7 +93,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 
 				int itemId = item.getItemId();
-
+				drawerLayout.closeDrawer(navigationView);
 				switch (itemId){
 					case R.id.farm:
 
@@ -101,10 +102,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
 						Intent intent = new Intent(MainActivity.this, SettingActicity.class);
 						startActivity(intent);
 						break;
+					case R.id.cam:
+//						Intent intent1 = new Intent(MainActivity.this, VideoActivity.class);
+//						startActivity(intent1);
+						//启动播放页面
+						PlayActivity.startPlayActivity(MainActivity.this, Config.APP_KEY, Config.ACCESS_KEY, Config.PLAY_URL_HD);
+						break;
 					default:
 						break;
 				}
-				drawerLayout.closeDrawer(navigationView);
+
 				return true;
 			}
 		});

@@ -2,6 +2,7 @@ package com.xindany;
 
 import android.app.Application;
 
+import com.ezvizuikit.open.EZUIKit;
 import com.xindany.socket.SocketClient;
 import com.xindany.socket.SocketServer;
 
@@ -21,6 +22,11 @@ public class App extends Application {
 
         SocketServer.getInstance().startServer();
 //       SocketClient.getInstance().start();
+        //初始化EZUIKit
+        EZUIKit.initWithAppKey(App.getInstance(),Config.APP_KEY);
+
+        //设置授权token
+        EZUIKit.setAccessToken(Config.ACCESS_KEY);
 
     }
 
