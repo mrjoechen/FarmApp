@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="250dp"
+    android:layout_height="150dp"
+    android:gravity="center">
+
+    <RadioGroup
+        android:id="@+id/rg_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="萝卜"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rg_2"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="辣椒"/>
+
+    </RadioGroup>
+
+</LinearLayout>

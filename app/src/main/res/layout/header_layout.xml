@@ -5,19 +5,29 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@color/black_translucent">
-    <ImageView
-        android:id="@+id/person"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="42dp"
-        android:src="@drawable/haust"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:textColor="#ffffff"
-        android:text="智慧农场"/>
+        android:text="智 慧 农 场"/>
+    <ImageView
+        android:id="@+id/person"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/haust"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff"
+        android:text="Haust"/>
+
     <TextView
         android:id="@+id/tv_ip"
         android:layout_width="wrap_content"
