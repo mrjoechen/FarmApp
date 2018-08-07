@@ -39,7 +39,6 @@ public class SettingActicity extends Activity implements View.OnClickListener{
         socket_port = (int) SPUtils.get(App.getInstance(), "socket_port", 8234);
         edPort.setText(socket_port +"");
 
-
     }
 
     @Override

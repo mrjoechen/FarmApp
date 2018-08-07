@@ -6,11 +6,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +24,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -28,6 +33,7 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +41,7 @@ import com.xindany.App;
 import com.xindany.Config;
 import com.xindany.socket.SocketServer;
 import com.xindany.util.DeviceUtil;
+import com.xindany.util.SPUtils;
 import com.xindany.util.T;
 
 
@@ -48,6 +55,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	private ImageView menuBtn;
 	private DrawerLayout drawerLayout;
 	private NavigationView navigationView;
+
+    private NavigationView navigationView_right;
 	private View headerView;
 
 	private HandlerThread mHandlerThread = new HandlerThread("send-thread");
@@ -77,8 +86,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 		menuBtn = findViewById(R.id.iv_menu);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-		navigationView = (NavigationView) findViewById(R.id.nav);
-		//获取头布局
+
+        navigationView = (NavigationView) findViewById(R.id.nav);
+        navigationView_right = (NavigationView) findViewById(R.id.nav_right);
+
+        //获取头布局
 		headerView = navigationView.getHeaderView(0);
 		TextView tvIp = headerView.findViewById(R.id.tv_ip);
 		tvIp.setText("当前手机IP："+ DeviceUtil.getIP());
@@ -96,7 +108,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
 				drawerLayout.closeDrawer(navigationView);
 				switch (itemId){
 					case R.id.farm:
-
 						break;
 					case R.id.setting:
 						Intent intent = new Intent(MainActivity.this, SettingActicity.class);
@@ -108,6 +119,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
 						//启动播放页面
 						PlayActivity.startPlayActivity(MainActivity.this, Config.APP_KEY, Config.ACCESS_KEY, Config.PLAY_URL_HD);
 						break;
+					case R.id.clear:
+					    clear();
+						break;
 					default:
 						break;
 				}
@@ -117,8 +131,44 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		});
 
 
+        final PlayFragment frament_play = (PlayFragment) getFragmentManager().findFragmentById(R.id.frament_play);
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                if (drawerView.equals(navigationView_right)){
+//                    PlayActivity.startPlayActivity(MainActivity.this, Config.APP_KEY, Config.ACCESS_KEY, Config.PLAY_URL_HD);
+                    if (frament_play != null){
+                        frament_play.start();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                if (drawerView.equals(navigationView_right)){
+                    if (frament_play != null){
+                        frament_play.stop();
+                    }
+                }
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
 		((TextView)findViewById(R.id.imgbtnbz)).setOnClickListener(new Button.OnClickListener() {
-			@Override
+
+            private int type = 1;
+
+            @Override
 			public void onClick(final View v) {
 				if(selectIndexs.length() == 1){
 					AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -139,7 +189,21 @@ public class MainActivity extends Activity implements View.OnClickListener{
 				}
 				
 				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-				builder.setIcon(android.R.drawable.ic_dialog_info);
+
+                LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+                View view = inflater.inflate(R.layout.select_plant_type, null);
+
+                RadioGroup rg_select = view.findViewById(R.id.rg_select);
+                int checkedRadioButtonId = rg_select.getCheckedRadioButtonId();
+
+                if (checkedRadioButtonId == R.id.rb_1){
+                    type = 1;
+                }
+                if (checkedRadioButtonId == R.id.rb_1){
+                    type = 2;
+                }
+
+                builder.setIcon(android.R.drawable.ic_dialog_info);
 				builder.setTitle(R.string.app_name);
 				builder.setMessage("是否要对选中的农田开始播种？");
 				builder.setPositiveButton(R.string.sure,
@@ -148,8 +212,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
 							public void onClick(DialogInterface dialog, int which) {
 								sort();
 								String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
-								cmd = "1,0,"  + selectid.split(",").length + "," + selectid;
+								cmd = "1," + type + ","+ selectid.split(",").length + "," + selectid;
 //								new Thread(runnable).start();
+
+                                SPUtils.put(MainActivity.this, "data", selectIndexs);
 								send();
 							}
 						});
@@ -161,6 +227,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 						
 					}
 				});
+
+                builder.setView(view);
 				builder.show();
 			}
 		});
@@ -378,8 +446,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		imgbtns[63] = (ImageView)this.findViewById(R.id.img_di_64);
 		imgbtns[64] = (ImageView)this.findViewById(R.id.img_di_65);
 		imgbtns[65] = (ImageView)this.findViewById(R.id.img_di_66);
-		
-		for(int i = 0; i < imgbtns.length; i++){
+
+        for(int i = 0; i < imgbtns.length; i++){
 			imgbtns[i].setTag((i+1));
 			imgbtns[i].setOnClickListener(new Button.OnClickListener() {
 				@Override
@@ -413,7 +481,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
 			});
 		}
 	}
-	/**
+
+
+    /**
 	 * 读取流中的数据
 	 * @param inputStream
 	 * @return
@@ -430,7 +500,27 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		inputStream.close();
 		return outStream.toByteArray();
 	}
-	
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        refresh();
+
+    }
+
+    private void refresh(){
+        selectIndexs = "," + (String) SPUtils.get(MainActivity.this, "data", "");
+
+        for(int i = 0; i < imgbtns.length; i++){
+            if (selectIndexs != null && selectIndexs.contains(","+ (i + 1) +",")){
+                imgbtns[i].setImageResource(R.drawable.select_data);
+            }else {
+                imgbtns[i].setImageResource(R.drawable.null_data);
+            }
+        }
+    }
 	
 	
 	Runnable runnable = new Runnable(){
@@ -597,5 +687,56 @@ public class MainActivity extends Activity implements View.OnClickListener{
 			default:
 					break;
 		}
+	}
+
+	private void modify(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		builder.setIcon(android.R.drawable.ic_dialog_info);
+		builder.setTitle(R.string.app_name);
+		builder.setMessage("是否要对选中的农田开始播种？");
+		builder.setPositiveButton(R.string.sure,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						sort();
+						String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
+						cmd = "1,0,"  + selectid.split(",").length + "," + selectid;
+//								new Thread(runnable).start();
+						send();
+					}
+				});
+		builder.setNegativeButton("取消",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+
+					}
+				});
+		builder.show();
+	}
+
+	private void clear(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		builder.setIcon(android.R.drawable.ic_dialog_info);
+		builder.setTitle(R.string.app_name);
+		builder.setMessage("是否要清除数据 ？");
+		builder.setPositiveButton(R.string.sure,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+                        SPUtils.put(MainActivity.this, "data", "");
+                        refresh();
+					}
+				});
+		builder.setNegativeButton("取消",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+
+					}
+				});
+		builder.show();
 	}
 }

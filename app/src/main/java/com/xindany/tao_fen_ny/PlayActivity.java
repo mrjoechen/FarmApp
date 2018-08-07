@@ -145,7 +145,7 @@ public class PlayActivity extends Activity implements View.OnClickListener, Wind
         RelativeLayout.LayoutParams rlp=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         rlp.addRule(RelativeLayout.CENTER_IN_PARENT);//addRule参数对应RelativeLayout XML布局的属性
         ProgressBar mProgressBar = new ProgressBar(this);
-        mProgressBar.setIndeterminateDrawable(getResources().getDrawable(R.drawable.loading));
+        mProgressBar.setIndeterminateDrawable(getResources().getDrawable(R.drawable.progress));
         relativeLayout.addView(mProgressBar,rlp);
         return relativeLayout;
     }
