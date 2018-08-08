@@ -20,8 +20,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/player_layout"
-        android:background="#ff888888">
+        android:layout_below="@+id/player_layout">
 
         <Button
             android:id="@+id/btn_play"

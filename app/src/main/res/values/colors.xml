@@ -9,4 +9,17 @@
     <color name="corner">@android:color/white</color>
     <color name="surrounding_area">@color/black_translucent</color>
 
+    <color name="main_back">#FFF5F5F5</color>
+    <color name="color_white">#FFFFFFFF</color>
+    <color name="black">#ff000000</color>
+
+    <color name="gray">#ff888888</color>
+
+    <!-- scan color -->
+    <color name="viewfinder_frame">#929292</color>
+    <color name="viewfinder_laser">#fe5600</color>
+    <color name="viewfinder_mask">#000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
 </resources>
