@@ -38,10 +38,6 @@ import java.util.Calendar;
  */
 public class PlayFragment extends Fragment implements View.OnClickListener, EZUIPlayer.EZUIPlayerCallBack {
     private static final String TAG = "PlayActivity";
-    public static final String APPKEY = "AppKey";
-    public static final String AccessToekn = "AccessToekn";
-    public static final String PLAY_URL = "play_url";
-    public static final String Global_AreanDomain = "global_arean_domain";
     private EZUIPlayer mEZUIPlayer;
 
     private Button mBtnPlay;
@@ -135,12 +131,12 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
     private void preparePlay(){
         //设置debug模式，输出log信息
         EZUIKit.setDebug(true);
-        EZUIKit.initWithAppKey(App.getInstance(), appkey);
+        EZUIKit.initWithAppKey(App.getInstance(), Config.APP_KEY);
         //设置授权accesstoken
-        EZUIKit.setAccessToken(accesstoken);
+        EZUIKit.setAccessToken(Config.ACCESS_KEY);
         //设置播放资源参数
         mEZUIPlayer.setCallBack(this);
-        mEZUIPlayer.setUrl(playUrl);
+        mEZUIPlayer.setUrl(Config.PLAY_URL_HD);
     }
 
 

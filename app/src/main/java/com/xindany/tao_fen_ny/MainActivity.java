@@ -110,7 +110,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 					case R.id.farm:
 						break;
 					case R.id.setting:
-						Intent intent = new Intent(MainActivity.this, SettingActicity.class);
+						Intent intent = new Intent(MainActivity.this, Setting2Activity.class);
 						startActivity(intent);
 						break;
 					case R.id.cam:
@@ -199,7 +199,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 if (checkedRadioButtonId == R.id.rb_1){
                     type = 1;
                 }
-                if (checkedRadioButtonId == R.id.rb_1){
+                if (checkedRadioButtonId == R.id.rb_2){
                     type = 2;
                 }
 
@@ -511,7 +511,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     private void refresh(){
-        selectIndexs = "," + (String) SPUtils.get(MainActivity.this, "data", "");
+        selectIndexs = (String) SPUtils.get(MainActivity.this, "data", "");
 
         for(int i = 0; i < imgbtns.length; i++){
             if (selectIndexs != null && selectIndexs.contains(","+ (i + 1) +",")){
