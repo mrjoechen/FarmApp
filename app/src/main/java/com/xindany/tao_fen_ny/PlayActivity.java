@@ -99,7 +99,7 @@ public class PlayActivity extends Activity implements View.OnClickListener, Wind
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
@@ -331,7 +331,7 @@ public class PlayActivity extends Activity implements View.OnClickListener, Wind
                 int current = getRequestedOrientation();
                 if (current == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                         || current == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 }
             }
         }

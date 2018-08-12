@@ -80,8 +80,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		setContentView(view);
 		findView();
 	}
-	
-	
+
+
 	void findView(){
 
 		menuBtn = findViewById(R.id.iv_menu);
@@ -140,22 +140,26 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                if (drawerView.equals(navigationView_right)){
-//                    PlayActivity.startPlayActivity(MainActivity.this, Config.APP_KEY, Config.ACCESS_KEY, Config.PLAY_URL_HD);
-                    if (frament_play != null){
-                        frament_play.start();
-                    }
-                }
+//                if (drawerView.equals(navigationView_right)){
+////                    PlayActivity.startPlayActivity(MainActivity.this, Config.APP_KEY, Config.ACCESS_KEY, Config.PLAY_URL_HD);
+//                    if (frament_play != null){
+//                        frament_play.start();
+//                    }
+//                }
+				if (drawerView.equals(navigationView_right)){
+					PlayActivity.startPlayActivity(MainActivity.this, Config.APP_KEY, Config.ACCESS_KEY, Config.PLAY_URL_HD);
+					drawerLayout.closeDrawers();
+				}
 
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                if (drawerView.equals(navigationView_right)){
-                    if (frament_play != null){
-                        frament_play.stop();
-                    }
-                }
+//                if (drawerView.equals(navigationView_right)){
+//                    if (frament_play != null){
+//                        frament_play.stop();
+//                    }
+//                }
             }
 
             @Override
@@ -193,15 +197,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
                 View view = inflater.inflate(R.layout.select_plant_type, null);
 
-                RadioGroup rg_select = view.findViewById(R.id.rg_select);
-                int checkedRadioButtonId = rg_select.getCheckedRadioButtonId();
+                final RadioGroup rg_select = view.findViewById(R.id.rg_select);
 
-                if (checkedRadioButtonId == R.id.rb_1){
-                    type = 1;
-                }
-                if (checkedRadioButtonId == R.id.rb_2){
-                    type = 2;
-                }
 
                 builder.setIcon(android.R.drawable.ic_dialog_info);
 				builder.setTitle(R.string.app_name);
@@ -211,6 +208,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								sort();
+
+								int checkedRadioButtonId = rg_select.getCheckedRadioButtonId();
+
+								if (checkedRadioButtonId == R.id.rb_1){
+									type = 1;
+								}
+								if (checkedRadioButtonId == R.id.rb_2){
+									type = 2;
+								}
+
 								String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
 								cmd = "1," + type + ","+ selectid.split(",").length + "," + selectid;
 //								new Thread(runnable).start();
@@ -738,5 +745,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
 					}
 				});
 		builder.show();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (drawerLayout.isDrawerOpen(navigationView_right) || drawerLayout.isDrawerOpen(navigationView)){
+			drawerLayout.closeDrawers();
+		}else {
+			super.onBackPressed();
+
+		}
 	}
 }

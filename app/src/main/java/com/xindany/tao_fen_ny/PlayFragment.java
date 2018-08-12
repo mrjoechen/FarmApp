@@ -1,11 +1,7 @@
 package com.xindany.tao_fen_ny;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -65,7 +61,7 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View inflate = inflater.inflate(R.layout.activity_play, null);
+        View inflate = inflater.inflate(R.layout.fragment_play, null);
         appkey = Config.APP_KEY;
         accesstoken = Config.ACCESS_KEY;
         playUrl = Config.PLAY_URL_HD;
@@ -74,7 +70,6 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
 
         //获取EZUIPlayer实例
         mEZUIPlayer = (EZUIPlayer) inflate.findViewById(R.id.player_ui);
-
         return inflate;
     }
 
@@ -93,7 +88,15 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
             mBtnPlay.setText(R.string.string_stop_play);
             mEZUIPlayer.startPlay();
         }
+
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        mEZUIPlayer.setSurfaceSize(dm.widthPixels,dm.heightPixels);
+//        mEZUIPlayer.setRotation();
+
     }
+
 
     public void stop(){
         //界面stop时，如果在播放，那isResumePlay标志位置为true，以便resume时恢复播放
@@ -104,7 +107,10 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
         mEZUIPlayer.stopPlay();
         //释放资源
         mEZUIPlayer.releasePlayer();
+
     }
+
+
 
 
     /**
@@ -125,6 +131,7 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
         return relativeLayout;
     }
 
+
     /**
      * 准备播放资源参数
      */
@@ -144,6 +151,7 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
     public void onPause() {
         super.onPause();
         Log.d(TAG,"onPause + "+mEZUIPlayer.getStatus());
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //界面stop时，如果在播放，那isResumePlay标志位置为true，以便resume时恢复播放
         if (mEZUIPlayer.getStatus() != EZUIPlayer.STATUS_STOP) {
@@ -153,6 +161,7 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
         mEZUIPlayer.stopPlay();
         //释放资源
         mEZUIPlayer.releasePlayer();
+
     }
 
     @Override
@@ -219,8 +228,6 @@ public class PlayFragment extends Fragment implements View.OnClickListener, EZUI
             }
         }
     }
-
-
 
 
 }
