@@ -35,7 +35,6 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.xindany.tao_fen_ny.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
@@ -45,7 +44,7 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity android:name=".SettingActicity"/>
         <activity android:name=".VideoActivity"/>
-        <activity android:name=".PlayActivity"/>
+        <activity android:name=".PlayActivity" android:screenOrientation="landscape"/>
         <activity android:name=".LoginActivity" android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
