@@ -36,9 +36,21 @@ public class PicActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pic);
 
+        OpenCvUtil openCvUtil = new OpenCvUtil();
+
         imageView1 = findViewById(R.id.img1);
         imageView2 = findViewById(R.id.img2);
+        Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(
+                R.drawable.pic_demo)).getBitmap();
+        int w = bitmap.getWidth(), h = bitmap.getHeight();
+        int[] pix = new int[w * h];
+        bitmap.getPixels(pix, 0, w, 0, 0, w, h);
+        int [] resultPixes=openCvUtil.jiaozheng(pix,w,h);
+        Bitmap result = Bitmap.createBitmap(w,h, Bitmap.Config.RGB_565);
+        result.setPixels(resultPixes, 0, w, 0, 0,w, h);
 
+        imageView2.setImageBitmap(result);
+        imageView1.setImageBitmap(bitmap);
 
 
     }

@@ -12,6 +12,8 @@ public class OpenCvUtil {
 
     public native int[] jiaozheng(int[] buf, int w, int h);
 
+    public native int[] grey(int[] buf, int w, int h);
+
     public native String getString();
 
 

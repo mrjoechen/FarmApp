@@ -15,6 +15,9 @@ extern "C" {
 JNIEXPORT jintArray JNICALL Java_com_xindany_OpenCvUtil_jiaozheng
   (JNIEnv *, jobject, jintArray, jint, jint);
 
+  JNIEXPORT jintArray JNICALL Java_com_xindany_OpenCvUtil_grey
+    (JNIEnv *, jobject, jintArray, jint, jint);
+
 /*
  * Class:     com_xindany_OpenCvUtil
  * Method:    getString
