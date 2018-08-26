@@ -20,9 +20,22 @@
         android:icon="@drawable/ic_launcher"
         android:title="  清除数据"/>
 
+    <item
+        android:id="@+id/capture"
+        android:icon="@drawable/ic_launcher"
+        android:title="  拍照"/>
     <!--<item-->
         <!--android:id="@+id/modify"-->
         <!--android:icon="@drawable/ic_launcher"-->
         <!--android:title="  修改密码"/>-->
 
+    <item
+        android:id="@+id/bond"
+        android:icon="@drawable/ic_launcher"
+        android:title="  绑定"/>
+
+    <item
+        android:id="@+id/test"
+        android:icon="@drawable/ic_launcher"
+        android:title="  测试"/>
 </menu>

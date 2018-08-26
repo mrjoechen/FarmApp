@@ -1,9 +1,14 @@
 package com.xindany;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.ezvizuikit.open.EZUIKit;
+import com.videogo.openapi.EZOpenSDK;
 import com.xindany.socket.SocketClient;
 import com.xindany.socket.SocketServer;
 import com.xindany.tao_fen_ny.R;
@@ -16,10 +21,16 @@ import static com.xindany.tao_fen_ny.PlayActivity.PLAY_URL;
  * Created by chenqiao on 2018/7/26.
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private static App mApp;
 
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {
@@ -41,10 +52,37 @@ public class App extends Application {
         //设置授权token
         EZUIKit.setAccessToken(Config.ACCESS_KEY);
 
+        initSDK();
+
     }
 
     public static App getInstance() {
         return mApp;
+    }
+
+
+    public static EZOpenSDK getOpenSDK() {
+        return EZOpenSDK.getInstance();
+    }
+
+
+    private void initSDK() {
+        {
+            /**
+             * sdk日志开关，正式发布需要去掉
+             */
+            EZOpenSDK.showSDKLog(true);
+
+            /**
+             * 设置是否支持P2P取流,详见api
+             */
+            EZOpenSDK.enableP2P(true);
+
+            /**
+             * APP_KEY请替换成自己申请的
+             */
+            EZOpenSDK.initLib(this, Config.APP_KEY);
+        }
     }
 
 }

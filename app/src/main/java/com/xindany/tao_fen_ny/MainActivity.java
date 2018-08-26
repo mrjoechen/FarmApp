@@ -11,17 +11,21 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.DragEvent;
@@ -39,7 +43,10 @@ import android.widget.Toast;
 
 import com.xindany.App;
 import com.xindany.Config;
+import com.xindany.LogoutTask;
+import com.xindany.OpenCvUtil;
 import com.xindany.socket.SocketServer;
+import com.xindany.tao_fen_ny.scan.main.CaptureActivity;
 import com.xindany.util.DeviceUtil;
 import com.xindany.util.SPUtils;
 import com.xindany.util.T;
@@ -121,6 +128,26 @@ public class MainActivity extends Activity implements View.OnClickListener{
 						break;
 					case R.id.clear:
 					    clear();
+						break;
+					case R.id.capture:
+
+						if (ContextCompat.checkSelfPermission(MainActivity.this,
+								Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+							ActivityCompat.requestPermissions(MainActivity.this,
+									new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
+						}else {
+							Intent intent1 = new Intent(MainActivity.this, EZPlayActivity.class);
+							startActivity(intent1);
+						}
+
+						break;
+					case R.id.bond:
+							new LogoutTask(MainActivity.this).execute();
+
+						break;
+					case R.id.test:
+						Intent intent1 = new Intent(MainActivity.this, PicActivity.class);
+						startActivity(intent1);
 						break;
 					default:
 						break;
@@ -755,5 +782,25 @@ public class MainActivity extends Activity implements View.OnClickListener{
 			super.onBackPressed();
 
 		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults) {
+		switch (requestCode){
+			case 100:
+				if (grantResults.length>0&&grantResults[0]== PackageManager.PERMISSION_GRANTED){
+					//这里已经获取到了摄像头的权限，想干嘛干嘛了可以
+					//跳转到二维码扫描页面扫描二维码获取预览所需参数appkey、accesstoken、url
+					Intent intent = new Intent(this, EZPlayActivity.class);
+					startActivityForResult(intent,200);
+				}else {
+					//这里是拒绝给APP摄像头权限，给个提示什么的说明一下都可以。
+					T.show(MainActivity.this,"请手动打开文件权限");
+				}
+				break;
+			default:
+				break;
+		}
+
 	}
 }
