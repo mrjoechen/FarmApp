@@ -5,6 +5,8 @@ import android.os.HandlerThread;
 import android.util.Log;
 
 import com.xindany.App;
+import com.xindany.Config;
+import com.xindany.tao_fen_ny.EZPlayActivity;
 import com.xindany.util.SPUtils;
 import com.xindany.util.StringUtils;
 import com.xindany.util.T;
@@ -44,6 +46,11 @@ public class SocketServer{
     private HandlerThread mThread = new HandlerThread("");
     private Handler mThreadHandler;
 
+    private EZPlayActivity ezPlayActivity;
+
+    public void setEzPlayActivity(EZPlayActivity ezPlayActivity) {
+        this.ezPlayActivity = ezPlayActivity;
+    }
 
     public boolean startServer(){
 
@@ -205,7 +212,14 @@ public class SocketServer{
                     byte buffer[] = new byte[1024 * 4];
                     int temp = 0;
                     while ((temp = inputStream.read(buffer)) != -1) {
-                        System.out.println(new String(buffer, 0, temp));
+                        String x = new String(buffer, 0, temp);
+                        System.out.println(x);
+                        if (x != null){
+                            T.show(App.getInstance(), client.getInetAddress() +":" + x);
+                            if (ezPlayActivity != null && x.contains(Config.KEY)){
+                                ezPlayActivity.onCapturePicBtnClick();
+                            }
+                        }
                     }
 
                     T.show(App.getInstance(), client.getInetAddress() +":" + client.getLocalPort() +" disconnected");

@@ -26,7 +26,7 @@ extern "C" {
 JNIEXPORT jintArray JNICALL Java_com_xindany_OpenCvUtil_jiaozheng
   (JNIEnv *env, jobject obj, jintArray buf, int w, int h){
 
-Mat image = imread("/mnt/sdcard/in.jpg", 1);
+    Mat image = imread("/mnt/sdcard/in.jpg", 1);
     jint *cbuf;
       cbuf = env->GetIntArrayElements(buf, JNI_FALSE );
       if (cbuf == NULL) {

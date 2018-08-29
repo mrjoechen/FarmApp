@@ -2,6 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
 
     <SurfaceView
         android:id="@+id/realplay_sv"
@@ -11,12 +17,39 @@
         android:layout_centerInParent="false"
         android:background="@android:color/transparent" />
 
+        <com.xindany.tao_fen_ny.LoadingTextView
+            android:id="@+id/realplay_loading"
+            style="@style/LoadingTextView_Percent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:layout_marginTop="30dp"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
     <Button
         android:id="@+id/btn_capture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="拍照"/>
 
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="保存"
+        android:layout_marginLeft="20dp"
+        android:visibility="gone"/>
 
-
+</LinearLayout>
 </LinearLayout>

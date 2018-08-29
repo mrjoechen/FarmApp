@@ -12,6 +12,7 @@ import com.videogo.openapi.EZOpenSDK;
 import com.xindany.socket.SocketClient;
 import com.xindany.socket.SocketServer;
 import com.xindany.tao_fen_ny.R;
+import com.xindany.util.SPUtils;
 
 import static com.xindany.tao_fen_ny.PlayActivity.APPKEY;
 import static com.xindany.tao_fen_ny.PlayActivity.AccessToekn;
@@ -45,6 +46,16 @@ public class App extends MultiDexApplication {
         Config.APP_KEY = sharedPreferences.getString(APPKEY,"");
         Config.ACCESS_KEY = sharedPreferences.getString(AccessToekn,"");
         Config.PLAY_URL_HD = sharedPreferences.getString(PLAY_URL,"");
+
+
+        Config.X = (int) SPUtils.get(App.getInstance(),"x", 200);
+        Config.Y = (int) SPUtils.get(App.getInstance(),"y", 320);
+
+        Config.W = (int) SPUtils.get(App.getInstance(),"w", 320);
+
+        Config.H = (int) SPUtils.get(App.getInstance(),"h", 640);
+
+        Config.KEY = (String) SPUtils.get(App.getInstance(),"key", "OK");
 
         //初始化EZUIKit
         EZUIKit.initWithAppKey(App.getInstance(),Config.APP_KEY);

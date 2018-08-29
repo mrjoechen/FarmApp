@@ -113,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -166,6 +166,50 @@
                             android:layout_height="match_parent" />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/x"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:hint="X"/>
+                        <EditText
+                            android:id="@+id/y"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:hint="Y"/>
+                        <EditText
+                            android:id="@+id/Width"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:hint="Width"/>
+                        <EditText
+                            android:id="@+id/Height"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:hint="Height"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="拍照指令:" />
+
+                        <EditText
+                            android:id="@+id/et_capture"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:hint="OK"/>
+                    </LinearLayout>
                     <Button
                         android:id="@+id/btn_save"
                         android:layout_width="wrap_content"

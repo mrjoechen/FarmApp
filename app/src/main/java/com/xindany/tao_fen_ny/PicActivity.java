@@ -37,44 +37,46 @@ public class PicActivity extends Activity {
         setContentView(R.layout.activity_pic);
 
 
+        OpenCvUtil openCvUtil = new OpenCvUtil();
 
         imageView1 = findViewById(R.id.img1);
         imageView2 = findViewById(R.id.img2);
-//        Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(
-//                R.drawable.pic_demo)).getBitmap();
-//        int w = bitmap.getWidth(), h = bitmap.getHeight();
-//        int[] pix = new int[w * h];
-//        bitmap.getPixels(pix, 0, w, 0, 0, w, h);
-//        int [] resultPixes=openCvUtil.jiaozheng(pix,w,h);
+        Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(
+                R.drawable.pic_demo)).getBitmap();
+        int w = bitmap.getWidth(), h = bitmap.getHeight();
+        int[] pix = new int[w * h];
+        bitmap.getPixels(pix, 0, w, 0, 0, w, h);
+        int [] resultPixes=openCvUtil.jiaozheng(pix,w,h);
 
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                final Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(
-                        R.drawable.pic_demo)).getBitmap();
-                final int w = bitmap.getWidth(), h = bitmap.getHeight();
-                int[] pix = new int[w * h];
-                OpenCvUtil openCvUtil = new OpenCvUtil();
-                final int [] resultPixes=openCvUtil.jiaozheng(pix,w,h);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bitmap result = Bitmap.createBitmap(w,h, Bitmap.Config.RGB_565);
-                    result.setPixels(resultPixes, 0, w, 0, 0,w, h);
-
-                    imageView2.setImageBitmap(result);
-                    imageView1.setImageBitmap(bitmap);
-                    }
-                });
-
-            }
-        }.start();
-//        Bitmap result = Bitmap.createBitmap(w,h, Bitmap.Config.RGB_565);
-//        result.setPixels(resultPixes, 0, w, 0, 0,w, h);
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                super.run();
+//                final Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(
+//                        R.drawable.pic_demo)).getBitmap();
+//                final int w = bitmap.getWidth(), h = bitmap.getHeight();
+//                int[] pix = new int[w * h];
+//                OpenCvUtil openCvUtil = new OpenCvUtil();
+//                final int [] resultPixes=openCvUtil.jiaozheng(pix,w,h);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Bitmap result = Bitmap.createBitmap(w,h, Bitmap.Config.RGB_565);
+//                    result.setPixels(resultPixes, 0, w, 0, 0,w, h);
 //
-//        imageView2.setImageBitmap(result);
-//        imageView1.setImageBitmap(bitmap);
+//                    imageView2.setImageBitmap(result);
+//                    imageView1.setImageBitmap(bitmap);
+//                    }
+//                });
+//
+//            }
+//        }.start();
+
+        Bitmap result = Bitmap.createBitmap(w,h, Bitmap.Config.RGB_565);
+        result.setPixels(resultPixes, 0, w, 0, 0,w, h);
+
+        imageView2.setImageBitmap(result);
+        imageView1.setImageBitmap(bitmap);
 
 
     }

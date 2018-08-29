@@ -3,6 +3,8 @@ package com.xindany.tao_fen_ny;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -18,7 +20,12 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -37,6 +44,7 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +76,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 	private HandlerThread mHandlerThread = new HandlerThread("send-thread");
 	private Handler mThreadHandler;
+	private LinearLayout tiandi_bg;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -97,7 +106,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         navigationView = (NavigationView) findViewById(R.id.nav);
         navigationView_right = (NavigationView) findViewById(R.id.nav_right);
 
-        //获取头布局
+		tiandi_bg = findViewById(R.id.tiandi_bg);
+
+		//获取头布局
 		headerView = navigationView.getHeaderView(0);
 		TextView tvIp = headerView.findViewById(R.id.tv_ip);
 		tvIp.setText("当前手机IP："+ DeviceUtil.getIP());
@@ -145,10 +156,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
 							new LogoutTask(MainActivity.this).execute();
 
 						break;
-					case R.id.test:
-						Intent intent1 = new Intent(MainActivity.this, PicActivity.class);
-						startActivity(intent1);
-						break;
+//					case R.id.test:
+//						Intent intent1 = new Intent(MainActivity.this, PicActivity.class);
+//						startActivity(intent1);
+//						break;
 					default:
 						break;
 				}
@@ -411,6 +422,45 @@ public class MainActivity extends Activity implements View.OnClickListener{
 				builder.show();
 			}
 		});
+
+		((TextView)findViewById(R.id.imgbtnsm)).setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+				builder.setIcon(android.R.drawable.ic_dialog_info);
+				builder.setTitle(R.string.app_name);
+				builder.setMessage("是否要对选中的农田开始扫描？");
+				builder.setPositiveButton(R.string.sure,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								sort();
+//								String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
+								cmd = "5,0,0,0";
+//								new Thread(runnable).start();
+								if (ContextCompat.checkSelfPermission(MainActivity.this,
+										Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+									ActivityCompat.requestPermissions(MainActivity.this,
+											new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},100);
+								}else {
+									Intent intent = new Intent(MainActivity.this, EZPlayActivity.class);
+									startActivity(intent);
+								}
+
+							}
+						});
+				builder.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+
+							}
+						});
+				builder.show();
+			}
+		});
 		
 		
 		imgbtns = new ImageView[66];
@@ -544,6 +594,42 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     }
 
+	/**
+	 * 根据 路径 得到 file 得到 bitmap
+	 * @param filePath
+	 * @return
+	 * @throws IOException
+	 */
+	public Bitmap decodeFile(String filePath) throws IOException{
+		Bitmap b = null;
+		int IMAGE_MAX_SIZE = 600;
+
+		File f = new File(filePath);
+		if (f == null){
+			return null;
+		}
+		//Decode image size
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = true;
+
+		FileInputStream fis = new FileInputStream(f);
+		BitmapFactory.decodeStream(fis, null, o);
+		fis.close();
+
+		int scale = 1;
+		if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
+			scale = (int) Math.pow(2, (int) Math.round(Math.log(IMAGE_MAX_SIZE / (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+		}
+
+		//Decode with inSampleSize
+		BitmapFactory.Options o2 = new BitmapFactory.Options();
+		o2.inSampleSize = scale;
+		fis = new FileInputStream(f);
+		b = BitmapFactory.decodeStream(fis, null, o2);
+		fis.close();
+		return b;
+	}
+
     private void refresh(){
         selectIndexs = (String) SPUtils.get(MainActivity.this, "data", "");
 
@@ -554,6 +640,21 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 imgbtns[i].setImageResource(R.drawable.null_data);
             }
         }
+
+		File file = new File(Environment.getExternalStorageDirectory() + "/frambg.jpg");
+		if (file.exists()){
+			Drawable drawable = null;
+			try {
+				drawable = new BitmapDrawable(decodeFile(Environment.getExternalStorageDirectory() + "/frambg.jpg"));
+				tiandi_bg.setBackground(drawable);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			tiandi_bg.setBackgroundResource(R.drawable.tian_bg);
+
+		}
     }
 	
 	
@@ -760,7 +861,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
                         SPUtils.put(MainActivity.this, "data", "");
-                        refresh();
+
+						File file = new File(Environment.getExternalStorageDirectory() + "/frambg.jpg");
+						if (file.exists()){
+							file.delete();
+						}
+						refresh();
 					}
 				});
 		builder.setNegativeButton("取消",

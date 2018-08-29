@@ -43,6 +43,7 @@
 
     
     <LinearLayout
+        android:id="@+id/tiandi_bg"
         android:layout_width="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -65,36 +66,42 @@
                 android:id="@+id/img_di_61"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_62"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_63"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_64"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_65"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_66"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -109,36 +116,42 @@
                 android:id="@+id/img_di_60"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_59"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_58"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_57"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_56"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_55"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -153,36 +166,42 @@
                 android:id="@+id/img_di_49"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_50"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_51"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_52"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_53"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_54"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -197,36 +216,42 @@
                 android:id="@+id/img_di_48"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_47"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_46"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_45"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_44"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_43"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -241,36 +266,42 @@
                 android:id="@+id/img_di_37"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_38"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_39"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_40"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_41"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_42"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -285,36 +316,42 @@
                 android:id="@+id/img_di_36"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_35"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_34"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_33"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_32"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_31"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -329,36 +366,42 @@
                 android:id="@+id/img_di_25"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_26"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_27"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_28"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_29"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_30"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -373,36 +416,42 @@
                 android:id="@+id/img_di_24"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_23"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_22"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_21"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_20"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_19"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -417,36 +466,42 @@
                 android:id="@+id/img_di_13"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_14"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_15"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_16"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_17"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_18"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -461,36 +516,42 @@
                 android:id="@+id/img_di_12"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_11"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_10"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_9"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_8"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_7"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -505,36 +566,42 @@
                 android:id="@+id/img_di_1"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
              />
             <ImageView
                 android:id="@+id/img_di_2"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
               />
             <ImageView
                 android:id="@+id/img_di_3"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
       />
             <ImageView
                 android:id="@+id/img_di_4"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_5"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
            />
             <ImageView
                 android:id="@+id/img_di_6"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:background="@drawable/img_bg"
                 android:layout_height="match_parent"
          />
             
@@ -576,6 +643,18 @@
             android:background="@drawable/btn_bg" />
 
         <TextView
+            android:id="@+id/imgbtnsm"
+            android:layout_width="80dp"
+            android:scaleType="fitXY"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:background="@drawable/btn_bg"
+            android:text="扫描"/>
+
+        <TextView
             android:id="@+id/imgbtnsf"
             android:layout_width="80dp"
             android:scaleType="fitXY"
@@ -586,6 +665,7 @@
             android:textSize="20dp"
             android:background="@drawable/btn_bg"
             android:text="施肥"/>
+
 
         <TextView
             android:id="@+id/imgbtncc"

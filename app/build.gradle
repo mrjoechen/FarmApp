@@ -32,11 +32,17 @@ android {
 
 }
 
+repositories {
+    mavenCentral()
+}
+
+
 dependencies {
     implementation 'com.android.support:support-v4:26.1.0'
     compile 'com.android.support:multidex:1.0.1'
     implementation 'com.android.support:design:26.1.0'
     compile 'com.hikvision.ezviz:ezuikit:2.0'
+    compile 'com.edmodo:cropper:1.0.1'
     implementation files('libs/zxing.jar')
     implementation files('libs/glide-3.6.1.jar')
     implementation project(':openCVLibrary342')

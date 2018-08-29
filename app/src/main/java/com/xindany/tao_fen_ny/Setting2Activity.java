@@ -45,6 +45,11 @@ public class Setting2Activity extends Activity implements View.OnClickListener {
     private int socket_port;
     private Button btnSave;
 
+    private EditText edX;
+    private EditText edY;
+    private EditText edWidth;
+    private EditText edHeight;
+
 
     /**
      * 二维码扫描按钮
@@ -78,6 +83,8 @@ public class Setting2Activity extends Activity implements View.OnClickListener {
 
     private EditText mUrlEditText;
 
+    private EditText mEdCapture;
+
 
     private TextView mTextViewVersion;
 
@@ -109,6 +116,29 @@ public class Setting2Activity extends Activity implements View.OnClickListener {
         edPort.setText(socket_port +"");
 
 
+        edX = findViewById(R.id.x);
+        edY = findViewById(R.id.y);
+        edWidth = findViewById(R.id.Width);
+        edHeight = findViewById(R.id.Height);
+        edX.setInputType( InputType.TYPE_CLASS_NUMBER);
+        edY.setInputType( InputType.TYPE_CLASS_NUMBER);
+        edWidth.setInputType( InputType.TYPE_CLASS_NUMBER);
+        edHeight.setInputType( InputType.TYPE_CLASS_NUMBER);
+        int x = (int) SPUtils.get(App.getInstance(), "x", 200);
+        edX.setText(x +"");
+
+        int y = (int) SPUtils.get(App.getInstance(), "y", 320);
+        edY.setText(y +"");
+
+        int w = (int) SPUtils.get(App.getInstance(), "w", 320);
+        edWidth.setText(w +"");
+
+        int h = (int) SPUtils.get(App.getInstance(), "h", 640);
+        edHeight.setText(h +"");
+
+        mEdCapture = findViewById(R.id.et_capture);
+        String key = (String) SPUtils.get(App.getInstance(), "key", "OK");
+        mEdCapture.setText(key+"");
         getDefaultParams();
     }
 
@@ -132,16 +162,48 @@ public class Setting2Activity extends Activity implements View.OnClickListener {
             showClearDialog();
         }else if (view == btnSave){
             String text = edPort.getText().toString();
-            if (!StringUtils.isBlank(text) && Integer.parseInt(text) > 0 && Integer.parseInt(text) < 9999){
+
+            String x= edX.getText().toString();
+            String y = edY.getText().toString();
+            String w = edWidth.getText().toString();
+            String h = edHeight.getText().toString();
+
+            if (!StringUtils.isBlank(text) && Integer.parseInt(text) > 0 && Integer.parseInt(text) < 9999 && (Integer.parseInt(x) > 0) && (Integer.parseInt(x) < 720) && (Integer.parseInt(y) > 0) && (Integer.parseInt(y) < 1280) && (Integer.parseInt(w) > 0) && (Integer.parseInt(w) < 720) && (Integer.parseInt(h) > 0) && (Integer.parseInt(h) < 1280)){
                 if (!text.equals(socket_port+"")){
                     SPUtils.put(App.getInstance(), "socket_port", Integer.parseInt(text));
                     SocketServer.getInstance().startServer();
                 }
 
+                SPUtils.put(App.getInstance(), "x", Integer.parseInt(x));
+                SPUtils.put(App.getInstance(), "y", Integer.parseInt(y));
+                SPUtils.put(App.getInstance(), "w", Integer.parseInt(w));
+                SPUtils.put(App.getInstance(), "h", Integer.parseInt(h));
+
+
+                Config.X = Integer.parseInt(x);
+                Config.Y = Integer.parseInt(y);
+
+                Config.W = Integer.parseInt(w);
+
+                Config.H = Integer.parseInt(h);
+
+
+                String s = mEdCapture.getText().toString();
+                if (!StringUtils.isBlank(s)){
+                    SPUtils.put(App.getInstance(), "key", s);
+                    Config.KEY = s;
+                }
+
                 T.show(this, "保存成功");
+
+                finish();
             }else {
                 T.show(this, "输入不合法");
             }
+
+
+
+
         }
 
     }

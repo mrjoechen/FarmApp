@@ -17,4 +17,12 @@ public class Config {
     public static String PLAY_URL_HD = "ezopen://open.ys7.com/C08704282/1.hd.live";
     public static String PLAY_URL_NORMAL = "ezopen://open.ys7.com/C08704282/1.live";
 
+
+    public static int X = 200;
+    public static int Y = 320;
+    public static int W = 320;
+    public static int H = 640;
+
+    public static String KEY = "OK";
+
 }
