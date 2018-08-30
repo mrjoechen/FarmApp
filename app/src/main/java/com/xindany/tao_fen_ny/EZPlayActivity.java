@@ -98,6 +98,29 @@ public class EZPlayActivity extends Activity implements View.OnClickListener, Su
         initView();
 
         initData();
+
+
+        if (thread == null || !thread.isAlive()){
+            thread = new HandlerThread("jiaozheng");
+            thread.start();
+        }
+
+        if (mThreadHandler == null)
+            mThreadHandler = new Handler(thread.getLooper());
+
+
+        mThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                boolean b = SocketServer.getInstance().sendData("5");
+                if (b){
+                    T.show(App.getInstance(), "go go go！");
+                }else {
+                    T.show(App.getInstance(), "失败");
+                }
+            }
+        });
+
     }
 
     @Override
@@ -353,7 +376,7 @@ public class EZPlayActivity extends Activity implements View.OnClickListener, Su
                                 return;
                             }
                             EZUtils.saveCapturePictrue(path, bmp);
-//                            copy(new File(path), new File("/mnt/sdcard/in.jpg"), true);
+                            copy(new File(path), new File("/mnt/sdcard/in.jpg"), true);
 
                             mHandler.post(new Runnable() {
                                 @Override
@@ -371,7 +394,7 @@ public class EZPlayActivity extends Activity implements View.OnClickListener, Su
 //                                }
 //                            }, 4000);
 
-                            Thread.sleep(3000);
+                            Thread.sleep(4000);
 
                             mHandler.post(new Runnable() {
                                 @Override
@@ -425,6 +448,17 @@ public class EZPlayActivity extends Activity implements View.OnClickListener, Su
 
                                     if (result != null){
                                         T.show(EZPlayActivity.this, "保存成功");
+                                        mThreadHandler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                boolean b = SocketServer.getInstance().sendData("6");
+                                                if (b){
+                                                    T.show(App.getInstance(), "归位！");
+                                                }else {
+                                                    T.show(App.getInstance(), "归位失败");
+                                                }
+                                            }
+                                        });
                                         finish();
                                     }else {
                                         T.show(EZPlayActivity.this, "请先拍照");

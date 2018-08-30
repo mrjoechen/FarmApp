@@ -437,7 +437,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
 							public void onClick(DialogInterface dialog, int which) {
 								sort();
 //								String selectid = selectIndexs.substring(1, selectIndexs.length() - 1);
-								cmd = "5,0,0,0";
 //								new Thread(runnable).start();
 								if (ContextCompat.checkSelfPermission(MainActivity.this,
 										Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
