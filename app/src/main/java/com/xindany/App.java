@@ -43,9 +43,9 @@ public class App extends MultiDexApplication {
 
 
         SharedPreferences sharedPreferences = getSharedPreferences(getResources().getString(R.string.app_name),0);
-        Config.APP_KEY = sharedPreferences.getString(APPKEY,"");
-        Config.ACCESS_KEY = sharedPreferences.getString(AccessToekn,"");
-        Config.PLAY_URL_HD = sharedPreferences.getString(PLAY_URL,"");
+        Config.APP_KEY = sharedPreferences.getString(APPKEY,Config.APP_KEY);
+        Config.ACCESS_KEY = sharedPreferences.getString(AccessToekn,Config.ACCESS_KEY);
+        Config.PLAY_URL_HD = sharedPreferences.getString(PLAY_URL,Config.PLAY_URL_HD);
 
 
         Config.X = (int) SPUtils.get(App.getInstance(),"x", 200);

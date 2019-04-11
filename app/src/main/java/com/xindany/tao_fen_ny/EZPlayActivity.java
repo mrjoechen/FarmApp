@@ -263,7 +263,7 @@ public class EZPlayActivity extends Activity implements View.OnClickListener, Su
 
 
         if (result == null){
-            T.show(EZPlayActivity.this, "请先拍照1");
+            T.show(EZPlayActivity.this, "请先拍照");
             return;
         }
 
@@ -394,15 +394,16 @@ public class EZPlayActivity extends Activity implements View.OnClickListener, Su
 //                                }
 //                            }, 4000);
 
-                            Thread.sleep(4000);
+                            boolean b = SocketServer.getInstance().sendData("6");
 
-                            mHandler.post(new Runnable() {
+                            mHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     T.show(EZPlayActivity.this, "正在矫正");
 
                                 }
-                            });
+                            }, 1500);
+                            Thread.sleep(3000);
 
 //                            MediaScanner mMediaScanner = new MediaScanner(EZPlayActivity.this);
 //                            mMediaScanner.scanFile(path, "jpg");
@@ -414,12 +415,10 @@ public class EZPlayActivity extends Activity implements View.OnClickListener, Su
                             int[] pix = new int[w * h];
                             bitmap.getPixels(pix, 0, w, 0, 0, w, h);
                             int [] resultPixes=openCvUtil.jiaozheng(pix,w,h);
+                            Thread.sleep(2000);
 
                             Bitmap resultBmp1 = decodeFile("/mnt/sdcard/out.jpg");
                             Bitmap result1 = adjustPhotoRotation(resultBmp1, 90);
-
-                            int width = result1.getWidth();
-                            int height = result1.getHeight();
 
 //                            int x = width / 10;
 //                            int y = height / 15;
@@ -448,17 +447,6 @@ public class EZPlayActivity extends Activity implements View.OnClickListener, Su
 
                                     if (result != null){
                                         T.show(EZPlayActivity.this, "保存成功");
-                                        mThreadHandler.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                boolean b = SocketServer.getInstance().sendData("6");
-                                                if (b){
-                                                    T.show(App.getInstance(), "归位！");
-                                                }else {
-                                                    T.show(App.getInstance(), "归位失败");
-                                                }
-                                            }
-                                        });
                                         finish();
                                     }else {
                                         T.show(EZPlayActivity.this, "请先拍照");

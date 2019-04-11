@@ -27,14 +27,17 @@ JNIEXPORT jintArray JNICALL Java_com_xindany_OpenCvUtil_jiaozheng
   (JNIEnv *env, jobject obj, jintArray buf, int w, int h){
 
     Mat image = imread("/mnt/sdcard/in.jpg", 1);
+
+
     jint *cbuf;
       cbuf = env->GetIntArrayElements(buf, JNI_FALSE );
       if (cbuf == NULL) {
           return 0;
       }
-
+/*
       Mat imgData(h, w, CV_8UC4, (unsigned char *) cbuf);
 
+*/
 
 
     Size image_size = image.size();
@@ -50,13 +53,17 @@ JNIEXPORT jintArray JNICALL Java_com_xindany_OpenCvUtil_jiaozheng
     Mat t = image.clone();
     remap(image, t, mapx, mapy, INTER_LINEAR);
 
-    jint* ptr = (jint*)t.ptr(0);
+
 
     imwrite("/mnt/sdcard/out.jpg", t);
 
+/*
+      jint* ptr = (jint*)t.ptr(0);
       int size = w * h;
       jintArray result = env->NewIntArray(size);
       env->SetIntArrayRegion(result, 0, size, ptr);
+      */
+      jintArray result = env->NewIntArray(w*h);
       env->ReleaseIntArrayElements(buf, cbuf, 0);
       return result;
 
