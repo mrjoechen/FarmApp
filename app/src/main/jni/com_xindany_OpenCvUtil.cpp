@@ -126,6 +126,10 @@ JNIEXPORT jintArray JNICALL Java_com_xindany_OpenCvUtil_jiaozheng
         return result;
     }
 
+
+    //************颜色检测
+
+
 /*
  * Class:     com_xindany_OpenCvUtil
  * Method:    getString

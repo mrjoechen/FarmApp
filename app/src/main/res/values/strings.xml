@@ -1,9 +1,9 @@
 <resources>
 
     <string name="app_name">智慧农场</string>
-	<string name="sure">确定</string>
-	
-	
+    <string name="sure">确定</string>
+
+
     <string name="title">选择操作区域</string>
     <string name="fixedAspectRatio">fixedAspectRatio =\u0020</string>
     <string name="aspectRatioXHeader">aspectRatioX =\u0020</string>

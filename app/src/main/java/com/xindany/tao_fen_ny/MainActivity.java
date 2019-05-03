@@ -52,6 +52,7 @@ import android.widget.Toast;
 import com.xindany.App;
 import com.xindany.Config;
 import com.xindany.LogoutTask;
+import com.xindany.OpenCVCameraActivity;
 import com.xindany.OpenCvUtil;
 import com.xindany.socket.SocketServer;
 import com.xindany.tao_fen_ny.scan.main.CaptureActivity;
@@ -155,6 +156,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
 					case R.id.bond:
 							new LogoutTask(MainActivity.this).execute();
 
+						break;
+					case R.id.check:
+						Intent camIntent = new Intent(MainActivity.this, OpenCVCameraActivity.class);
+						startActivity(camIntent);
 						break;
 //					case R.id.test:
 //						Intent intent1 = new Intent(MainActivity.this, PicActivity.class);

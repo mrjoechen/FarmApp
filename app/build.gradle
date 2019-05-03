@@ -10,7 +10,7 @@ android {
 
         ndk {
             moduleName "OpenCvUtil"         //生成的so名字
-            abiFilters "armeabi", "armeabi-v7a"//只支持32位
+            abiFilters "armeabi-v7a"//只支持32位
         }
 
         multiDexEnabled true
@@ -19,7 +19,13 @@ android {
     sourceSets {
         main {
             jni.srcDirs = [] // disable automatic ndk-build call, which ignore our Android.mk
-            jniLibs.srcDir 'src/main/libs'
+            jniLibs.srcDir 'src/main/jni/native/libs'
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
         }
     }
 
@@ -46,4 +52,5 @@ dependencies {
     implementation files('libs/zxing.jar')
     implementation files('libs/glide-3.6.1.jar')
     implementation project(':openCVLibrary342')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
